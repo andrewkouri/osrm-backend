@@ -51,7 +51,11 @@ parseArguments(int argc, char *argv[], customizer::CustomizationConfig &customiz
                            ->default_value(0.0),
                        "Use with `--segment-speed-file`. Provide an `x` factor, by which Extractor "
                        "will log edge "
-                       "weights updated by more than this factor");
+                       "weights updated by more than this factor")("grasp",
+                       boost::program_options::value<bool>(
+                           &customization_config.grasp)
+                           ->default_value(false),
+                       "Prepare data for GRASP queries");
 
     // hidden options, will be allowed on command line, but will not be
     // shown to the user
