@@ -72,6 +72,7 @@ struct StorageConfig final
     boost::filesystem::path mld_partition_path;
     boost::filesystem::path mld_storage_path;
     boost::filesystem::path mld_graph_path;
+    boost::filesystem::path mld_grasp_path;
 };
 }
 }
