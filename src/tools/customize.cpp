@@ -54,7 +54,7 @@ parseArguments(int argc, char *argv[], customizer::CustomizationConfig &customiz
                        "weights updated by more than this factor")("grasp",
                        boost::program_options::value<bool>(
                            &customization_config.grasp)
-                           ->default_value(false),
+                           ->default_value(false)->implicit_value(true),
                        "Prepare data for GRASP queries");
 
     // hidden options, will be allowed on command line, but will not be
