@@ -118,13 +118,13 @@ inline void read(const boost::filesystem::path &path, std::vector<InputRestricti
         reader.ReadInto(is_only);
 
         auto num_conditions = reader.ReadElementCount64();
-        res.restriction.condition.reserve(num_conditions);
-        for (auto &c : res.restriction.condition)
+        res.restriction.condition.resize(num_conditions);
+        for (uint64_t i = 0; i < num_conditions; i++)
         {
-            reader.ReadInto(c.modifier);
-            reader.DeserializeVector(c.times);
-            reader.DeserializeVector(c.weekdays);
-            reader.DeserializeVector(c.monthdays);
+            reader.ReadInto(res.restriction.condition[i].modifier);
+            reader.DeserializeVector(res.restriction.condition[i].times);
+            reader.DeserializeVector(res.restriction.condition[i].weekdays);
+            reader.DeserializeVector(res.restriction.condition[i].monthdays);
         }
         res.restriction.flags.is_only = is_only;
         restrictions.push_back(std::move(res));
@@ -141,7 +141,7 @@ inline void write(storage::io::FileWriter &writer, const InputRestrictionContain
     writer.WriteElementCount64(container.restriction.condition.size());
     for (auto &c : container.restriction.condition)
     {
-        writer.WriteFrom(c.modifier);
+        writer.WriteOne(c.modifier);
         writer.SerializeVector(c.times);
         writer.SerializeVector(c.weekdays);
         writer.SerializeVector(c.monthdays);

@@ -384,7 +384,6 @@ bool ValidateTurn(const Timezoner &tz_handler,
 
     if (condition.empty())
     {
-        osrm::util::Log(logWARNING) << "Condition parsing failed";
         osrm::util::Log(logWARNING) << "Condition parsing failed for the turn " << from_node
                                     << " -> " << via_node.node_id << " -> " << to_node;
         return false;
