@@ -64,6 +64,8 @@ class CompressedEdgeContainer
 
   private:
     int free_list_maximum = 0;
+    std::atomic_size_t clipped_weights;
+    std::atomic_size_t clipped_durations;
 
     void IncreaseFreeList();
     std::vector<OnewayEdgeBucket> m_compressed_oneway_geometries;
