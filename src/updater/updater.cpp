@@ -455,7 +455,7 @@ updateTurnPenalties(const UpdaterConfig &config,
 std::vector<std::uint64_t>
 updateConditionalTurns(const UpdaterConfig &config,
                        std::vector<TurnPenalty> &turn_weight_penalties,
-                       std::vector<extractor::InputRestrictionContainer> &conditional_turns,
+                       std::vector<extractor::TurnRestriction> &conditional_turns,
                        const std::vector<extractor::QueryNode> &internal_to_external_node_map,
                        Timezoner time_zone_handler)
 {
@@ -535,7 +535,7 @@ EdgeID Updater::LoadAndUpdateEdgeExpandedGraph(
     const bool update_edge_weights = !config.segment_speed_lookup_paths.empty();
     const bool update_turn_penalties = !config.turn_penalty_lookup_paths.empty();
 
-    std::vector<extractor::InputRestrictionContainer> conditional_turns;
+    std::vector<extractor::TurnRestriction> conditional_turns;
     if (update_conditional_turns)
     {
         // TODO mold conditional_turns into an hash map

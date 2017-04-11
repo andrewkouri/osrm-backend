@@ -101,45 +101,45 @@ inline void write(const boost::filesystem::path &path, const SegmentDataContaine
 }
 
 // read/write for conditional turn restrictions file
-inline void read(const boost::filesystem::path &path, std::vector<InputRestrictionContainer> &restrictions)
+inline void read(const boost::filesystem::path &path, std::vector<TurnRestriction> &restrictions)
 {
     const auto fingerprint = storage::io::FileReader::VerifyFingerprint;
     storage::io::FileReader reader{path, fingerprint};
 
     auto num_indices = reader.ReadElementCount64();
     restrictions.reserve(num_indices);
-    InputRestrictionContainer res;
+    TurnRestriction res;
     while (num_indices > 0)
     {
         bool is_only;
-        reader.ReadInto(res.restriction.via);
-        reader.ReadInto(res.restriction.from);
-        reader.ReadInto(res.restriction.to);
+        reader.ReadInto(res.via);
+        reader.ReadInto(res.from);
+        reader.ReadInto(res.to);
         reader.ReadInto(is_only);
 
         auto num_conditions = reader.ReadElementCount64();
-        res.restriction.condition.resize(num_conditions);
+        res.condition.resize(num_conditions);
         for (uint64_t i = 0; i < num_conditions; i++)
         {
-            reader.ReadInto(res.restriction.condition[i].modifier);
-            reader.DeserializeVector(res.restriction.condition[i].times);
-            reader.DeserializeVector(res.restriction.condition[i].weekdays);
-            reader.DeserializeVector(res.restriction.condition[i].monthdays);
+            reader.ReadInto(res.condition[i].modifier);
+            reader.DeserializeVector(res.condition[i].times);
+            reader.DeserializeVector(res.condition[i].weekdays);
+            reader.DeserializeVector(res.condition[i].monthdays);
         }
-        res.restriction.flags.is_only = is_only;
+        res.flags.is_only = is_only;
         restrictions.push_back(std::move(res));
         num_indices--;
     }
 }
 
-inline void write(storage::io::FileWriter &writer, const InputRestrictionContainer &container)
+inline void write(storage::io::FileWriter &writer, const TurnRestriction &restriction)
 {
-    writer.WriteOne(container.restriction.via);
-    writer.WriteOne(container.restriction.from);
-    writer.WriteOne(container.restriction.to);
-    writer.WriteOne(container.restriction.flags.is_only);
-    writer.WriteElementCount64(container.restriction.condition.size());
-    for (auto &c : container.restriction.condition)
+    writer.WriteOne(restriction.via);
+    writer.WriteOne(restriction.from);
+    writer.WriteOne(restriction.to);
+    writer.WriteOne(restriction.flags.is_only);
+    writer.WriteElementCount64(restriction.condition.size());
+    for (auto &c : restriction.condition)
     {
         writer.WriteOne(c.modifier);
         writer.SerializeVector(c.times);
