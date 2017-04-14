@@ -29,7 +29,7 @@ end
 -- handles name, including ref and pronunciation
 function Handlers.handle_names(way,result,data,profile)
   -- parse the remaining tags
-  local name = way:get_value_by_key("name")
+  local name = way:get_value_by_key("id")
   local pronunciation = way:get_value_by_key("name:pronunciation")
   local ref = way:get_value_by_key("ref")
 
